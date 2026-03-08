@@ -1,0 +1,2 @@
+# LangGraph_Oraculum
+LangGraph-Oraculum: Laboratório de arquitetura multiagente e IA aplicada para o projeto Text-to-Insight | RAIA (Rede de Apoio em Inteligência Artificial) @ USP |  Orquestração avançada | LangGraph &amp; Docker &amp; Sandbox | Onde código encontra cognição, e insight emerge da engenharia

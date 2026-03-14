@@ -1,0 +1,233 @@
+================================================================================
+DOCUMENTAÇÃO DAS TABELAS DO BANCO DE DADOS NORTHWIND
+================================================================================
+
+Resumo: Este documento apresenta a estrutura e relacionamentos das principais
+tabelas do banco de dados Northwind, incluindo informações sobre consumidores
+(clientes), pedidos e detalhes de produtos.
+
+
+================================================================================
+TABELA: customers.csv
+================================================================================
+Descrição: Contém informações sobre os clientes/consumidores da Northwind.
+Esta tabela armazena dados de identificação, contato e localização dos clientes
+que realizam pedidos no sistema.
+
+Colunas:
+--------
+
+1. customerID (ID do Cliente)
+   - Tipo: Texto/String
+   - Descrição: Código identificador único do cliente
+   - Chave primária da tabela
+   - Formato: Código alfanumérico de até 5 caracteres
+   - Exemplo: ALFKI, ANATR, ANTON, AROUT, BERGS
+
+2. companyName (Nome da Empresa)
+   - Tipo: Texto/String
+   - Descrição: Nome comercial/oficial da empresa cliente
+   - Campo obrigatório
+   - Exemplo: "Alfreds Futterkiste", "Ana Trujillo Emparedados y helados"
+
+3. contactName (Nome do Contato)
+   - Tipo: Texto/String
+   - Descrição: Nome da pessoa responsável/contato principal na empresa cliente
+   - Campo obrigatório
+   - Exemplo: "Maria Anders", "Ana Trujillo", "Antonio Moreno"
+
+4. contactTitle (Cargo/Título do Contato)
+   - Tipo: Texto/String
+   - Descrição: Posição ou cargo da pessoa de contato na empresa
+   - Informação profissional do responsável
+   - Exemplo: "Sales Representative", "Owner", "Order Administrator"
+
+5. city (Cidade)
+   - Tipo: Texto/String
+   - Descrição: Cidade onde a empresa cliente está localizada
+   - Informação de endereço
+   - Exemplo: "Berlin", "Mexico City", "London", "Madrid"
+
+6. country (País)
+   - Tipo: Texto/String
+   - Descrição: País onde a empresa cliente está localizada
+   - Informação de endereço geográfico
+   - Exemplo: "Germany", "Mexico", "UK", "Spain", "Sweden"
+
+
+================================================================================
+TABELA: orders.csv
+================================================================================
+Descrição: Contém informações sobre os pedidos realizados pelos clientes.
+Esta tabela registra cada pedido realizado por um cliente, incluindo datas,
+informações de envio e valores de frete.
+
+Colunas:
+--------
+
+1. orderID (ID do Pedido)
+   - Tipo: Inteiro
+   - Descrição: Identificador único do pedido
+   - Chave primária da tabela
+   - Exemplo: 10248, 10249, 10250
+
+2. customerID (ID do Cliente)
+   - Tipo: Texto/String
+   - Descrição: Código identificador do cliente que realizou o pedido
+   - Chave estrangeira referenciando a tabela customers
+   - Estabelece a relação entre o pedido e o cliente
+   - Exemplo: VINET, TOMSP, HANAR
+
+3. employeeID (ID do Funcionário)
+   - Tipo: Inteiro
+   - Descrição: Identificador do funcionário responsável pelo atendimento do pedido
+   - Chave estrangeira referenciando a tabela de funcionários
+   - Exemplo: 1, 2, 3, 4, 5
+
+4. orderDate (Data do Pedido)
+   - Tipo: Data (YYYY-MM-DD)
+   - Descrição: Data em que o pedido foi realizado/registrado no sistema
+   - Exemplo: 2013-07-04
+
+5. requiredDate (Data Requerida)
+   - Tipo: Data (YYYY-MM-DD)
+   - Descrição: Data em que o cliente solicitou/espera receber o pedido
+   - Data promessada de entrega
+   - Exemplo: 2013-08-01
+
+6. shippedDate (Data de Envio)
+   - Tipo: Data (YYYY-MM-DD)
+   - Descrição: Data em que o pedido foi efetivamente enviado ao cliente
+   - Pode ser nula se o pedido ainda não foi enviado
+   - Exemplo: 2013-07-16
+
+7. shipperID (ID da Transportadora)
+   - Tipo: Inteiro
+   - Descrição: Identificador da empresa de transporte/entrega responsável pelo envio
+   - Chave estrangeira referenciando a tabela de transportadoras
+   - Exemplo: 1, 2, 3
+
+8. freight (Frete)
+   - Tipo: Decimal/Numérico
+   - Descrição: Valor do frete cobrado para o envio do pedido
+   - Geralmente em formato de moeda (ex: dólares)
+   - Exemplo: 32.38, 11.61, 65.83
+
+
+================================================================================
+TABELA: order_details.csv
+================================================================================
+Descrição: Contém os detalhes de cada pedido, especificando os produtos incluídos,
+quantidades, preços e descontos aplicados. Cada linha representa um produto
+específico dentro de um pedido.
+
+Colunas:
+--------
+
+1. orderID (ID do Pedido)
+   - Tipo: Inteiro
+   - Descrição: Identificador do pedido ao qual este item pertence
+   - Chave estrangeira referenciando a tabela orders
+   - Um pedido pode ter múltiplos itens/linhas nesta tabela
+   - Exemplo: 10248, 10249, 10250
+
+2. productID (ID do Produto)
+   - Tipo: Inteiro
+   - Descrição: Identificador único do produto sendo pedido
+   - Chave estrangeira referenciando a tabela de produtos
+   - Exemplo: 11, 42, 72
+
+3. unitPrice (Preço Unitário)
+   - Tipo: Decimal/Numérico
+   - Descrição: Preço de uma unidade do produto no momento do pedido
+   - Valor em moeda (geralmente dólares)
+   - Pode variar de pedido para pedido devido a promoções ou mudanças de preço
+   - Exemplo: 14.0, 9.8, 34.8
+
+4. quantity (Quantidade)
+   - Tipo: Inteiro
+   - Descrição: Número de unidades do produto incluídas no pedido
+   - Sempre maior que zero
+   - Exemplo: 12, 10, 5
+
+5. discount (Desconto)
+   - Tipo: Decimal/Numérico
+   - Descrição: Percentual de desconto aplicado ao produto neste pedido
+   - Valor entre 0 e 1 (onde 0.15 = 15% de desconto, 0 = sem desconto)
+   - Exemplo: 0 (sem desconto), 0.15 (15% de desconto), 0.05 (5% de desconto)
+
+
+================================================================================
+RELACIONAMENTOS ENTRE AS TABELAS
+================================================================================
+
+As tabelas estão inter-relacionadas conforme descrito abaixo:
+
+1. CUSTOMERS → ORDERS (1:N - Um para Muitos)
+   - Campo de relacionamento: customers.customerID = orders.customerID
+   - Um cliente pode realizar múltiplos pedidos
+   - Permite identificar quais clientes realizaram cada pedido
+   - Permite analisar histórico de compras por cliente
+
+2. ORDERS → ORDER_DETAILS (1:N - Um para Muitos)
+   - Campo de relacionamento: orders.orderID = order_details.orderID
+   - Um pedido pode conter múltiplos itens/produtos
+   - Permite detalhar quais produtos fazem parte de cada pedido
+
+3. CUSTOMERS → ORDERS → ORDER_DETAILS (Relacionamento Completo)
+   - Permite rastrear todo o histórico de um cliente
+   - Possibilita análises de consumo, padrões de compra e preferências
+   - Facilita cálculos de valor total gasto por cliente
+
+
+================================================================================
+EXEMPLOS DE ANÁLISES COM CONSUMIDORES
+================================================================================
+
+Com a tabela de consumidores integrada, agora é possível realizar análises como:
+
+1. Valor total gasto por cliente:
+   - Soma de (unitPrice × quantity × (1 - discount)) + freight
+   - Agrupado por customerID e companyName
+   - Ordenado por maior gasto
+
+2. Frequência de compras por cliente:
+   - Contagem de pedidos por customerID
+   - Análise de clientes mais ativos
+
+3. Geração de receita por país/cidade:
+   - Agrupamento de clientes por localização geográfica
+   - Análise de quais regiões geram mais vendas
+
+4. Clientes inativos ou de alto valor:
+   - Segmentação de clientes por valor de compra
+   - Identificação de clientes críticos para o negócio
+
+5. Análise do contato responsável:
+   - Identificação de departamentos/cargos que mais compram
+   - Tendências de negociação por tipo de contato
+
+
+================================================================================
+EXEMPLOS DE CÁLCULOS
+================================================================================
+
+Valor do Item (linha):
+   Valor do Item = unitPrice × quantity × (1 - discount)
+
+Valor Total de um Pedido:
+   Total do Pedido = SOMA(unitPrice × quantity × (1 - discount)) + freight
+
+Valor Total Gasto por Cliente:
+   Total do Cliente = SOMA(Total do Pedido) para todos os pedidos do cliente
+
+Número de Pedidos por Cliente:
+   Contagem = COUNT(DISTINCT orderID) agrupado por customerID
+
+Valor Médio por Pedido de um Cliente:
+   Valor Médio = Total do Cliente / Número de Pedidos
+
+
+================================================================================
+FIM DA DOCUMENTAÇÃO
+================================================================================
